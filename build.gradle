@@ -1,0 +1,41 @@
+plugins {
+   id 'java'
+}
+
+group 'com.inho'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+/*
+    implementation      ------>
+        testImplementation
+    compileOnly         ------
+    annotationProcessor
+    runtimeOnly
+        testRuntimeOnly
+    testCompileOnly
+    archives
+    default
+
+ */
+dependencies {
+
+    // H2 데이터베이스
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testImplementation 'com.h2database:h2:2.0.204'
+
+    // JPA 하이버네이트
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager
+    implementation 'org.hibernate:hibernate-entitymanager:5.6.3.Final'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+

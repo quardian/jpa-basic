@@ -1,0 +1,48 @@
+/*
+-------------
+Settings
+-------------
+ 초기화에 필요한 configuration을 선언하고 빌드에 참여할 Project 인스턴스의 계층 구성.
+ Settings 인스턴스와 settings.gradle 사이는 1:1 관계이다.
+ Gradle은 빌드를 위해 프로젝트를 조합하기 전,
+    Settings 인스턴스를 생성하고, 그에 대응하는 settings 파일을 실행한다.
+
+ Dynamic Properties
+ --------------------------
+    이 인터페이스 속성 이외에도,
+    Settings 오브젝트는 settings 스크립트에서 사용 가능한 추가적인 읽기 전용 속성을 만든다.
+    이는 다음 소스로 부터 속성들을 포함한다.
+
+    - 빌드의 settings 디렉토리에 위치한 gradle.properties 파일에 정의된다.
+    - 사용자의 .gradle 디렉토리에 위치한 gradle.properties
+    - -P 옵션을 사용해서 command-line에서 제공된다.
+
+ Properties
+ --------------------------
+    buildCash       빌드 캐시 구성
+    extensions      extension의 컨테이너
+    gralde          현재 빌드에 대한 Gradle 인스턴스
+    pluginManager
+    plugins         이 오브젝트에 적용된 plugin 들의 컨테이너.
+    rootDir         빌드 루트 디렉토리.
+    rootProject     빌드 루트 프로젝트
+    settings        이 settings 오브젝트 반환
+    settingDir      빌드 settings 디렉토리. settings 디렉토리는 settings 파일을 포함한 디렉토.
+    startPamameter
+
+ Methods
+ --------------------------
+ apply(closure)             0 개 이상의 플러그인 또는 스크립트에 적용한다.
+ apply(options)             map 으로 제공된 options 를 이용해서 플러그인 또는 스크립트에 적용한다.
+ apply(action)              0 개 이상의 플러그인 또는 스크립트에 적용한다.
+ findProject(projectDir)    제공된 프로젝트 디렉토리로 프로젝트를 반환
+ findProject(path)          제공된 경로로 프로젝트를 반환
+ include(projectPaths)      빌드에 제공된 프로젝트들을 추가한다.
+ includeBuild(rootProject)  복합 빌드를 위해, 특정 경로에 빌드를 포함한다.
+ includeBuild(rootProject,
+            configuration)
+  project(projectDir)        제공된 프로젝트 경로로 프로젝트를 반환.
+  project(path)             제공된 경로로 프로젝트를 반환
+*/
+rootProject.name = 'jpa-basic'
+
