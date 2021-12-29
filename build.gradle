@@ -9,23 +9,30 @@ repositories {
     mavenCentral()
 }
 
-/*
-    implementation      ------>
+/*-----------------------------------
+    implementation
         testImplementation
-    compileOnly         ------
+    compileOnly
+        testCompileOnly
     annotationProcessor
     runtimeOnly
         testRuntimeOnly
-    testCompileOnly
     archives
     default
-
- */
+ -----------------------------------*/
 dependencies {
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
 
     // H2 데이터베이스
     // https://mvnrepository.com/artifact/com.h2database/h2
-    testImplementation 'com.h2database:h2:2.0.204'
+    implementation 'com.h2database:h2:2.0.204'
 
     // JPA 하이버네이트
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager
