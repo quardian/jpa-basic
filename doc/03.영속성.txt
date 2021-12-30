@@ -34,19 +34,19 @@
 
     /******************************************/
     // [01] 객체 생성 (비영속)
-    Member member = new Member(1L, "오징어1");
+    Member memberModel = new Member(1L, "오징어1");
 
     EntityManager em = emf.createEntityManager();
     em.getTransaction().begin();
 
     // [02] 객체를 저장한 상태 (영속상태)
-    em.persist(member);
+    em.persist(memberModel);
 
     // [03] 회원 엔터티를 영속성 컨텍스트에서 분리(준영속 상태)
-    em.detach(member);
+    em.detach(memberModel);
 
     // [04] 객체를 삭제한 상태(삭제)
-    em.remove(member);
+    em.remove(memberModel);
 
 --------------------------------------
 4. 영속성 컨텍스트 이점

@@ -9,6 +9,11 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile) {
+    println "#############################################" + options.encoding
+    options.encoding = "UTF-8"
+}
+
 /*-----------------------------------
     implementation
         testImplementation

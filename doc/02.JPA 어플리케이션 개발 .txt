@@ -35,8 +35,8 @@ JPA 어플리케이션 개발
 
         tx.begin();
         try{
-            Member member = new Member(1L, "이인호");
-            em.persist(member);
+            Member memberModel = new Member(1L, "이인호");
+            em.persist(memberModel);
             tx.commit();
         }catch (Exception e) {
             if ( tx != null ) tx.rollback();

@@ -1,0 +1,179 @@
+--------------------------------------
+목차
+--------------------------------------
+    - 객체와 테이블 매핑
+    - 데치터베이스 스키마 자동 생성
+    - 필드와 컬럼 매핑
+    - 기본키 매핑
+    - 실전 예제
+
+--------------------------------------
+엔터티 매핑 소개
+--------------------------------------
+    - 객체와 테이블 매핑
+        : @Entity, @Table
+    - 필드와 컬럼 매핑
+        : @Column
+    - 기본키 매핑
+        : @Id
+    - 연관관계 매핑
+        : @ManyToOne, @JoinColumn
+
+--------------------------------------
+@Entity
+--------------------------------------
+    - @Entity가 붙은 클래스는 JPA가 관리, 엔터티라 한다.
+    - JPA를 사용해서 테이블과 매핑할 클래스는 @Entity 필수
+
+    [주의사항]
+    - 기본 생성자 필수 ( 파라미터 없는 public 또는 protected 생성자 )
+    - final 클래스, enum, interface, inner 클래스 사용 X
+    - 저장할 필드에 final 사용 X
+
+    [속성]
+        . name
+            JPA에서 사용할 엔터티 이름을 지정한다.
+            기본값 : 클래스 이름을 그대로 사용( 예: Member )
+            같은 클래스 이름 없으면 가급적 기본값 사용
+
+--------------------------------------
+@Table
+--------------------------------------
+    - @Table은 언터티와 매핑할 테이블 지정
+    [속성]
+        . name      : 매핑할 테이블 이름 ( 기본값 : 엔터티 이름 사용 )
+        . catalog   : 데이터베이스 catalog 매핑
+        . schema    : 데이터베이스 schema 매핑
+        . uniqueConstraints : DDL 생성 시에 유니크 제약 조건 생성
+        . index     : DDL 생성 시에 테이블의 인덱스
+
+--------------------------------------
+데이터베이스 스키마 자동 생성
+--------------------------------------
+    - DDL을 애플리케이션 실행 시저에 자동 생성
+    - 데이터베이스 방은을 활용해서 데이터베이스에 맞는 적절한 DDL생성
+    - 스키마 자동 생성 기능 사용 가이드 : 개발 장비에서만 사용
+
+    - hibernate.hbm2ddl.auto 속성
+        . create        : 기존 테이블 삭제 후 다시 생성 ( DROP + CREATE )
+        . create-drop   : create와 같으나 종료 시점에 테이블 DROP
+        . update        : 변경 분만 반영 (추가 사항만 반영됨)
+        . validate      : 엔터티와 테이블이 정상 매핑되었는지만 확인 (운영,스테이징 사용 가능)
+        . none          : 사용하지 않음
+
+    META-INF/persistence.xml
+    <properties>
+        <property name="hibernate.hbm2ddl.auto" value="create" />
+    </properties>
+
+--------------------------------------
+DDL 생성 기능
+--------------------------------------
+    - 제약조건 추가 : 회원 이름은 필수, 10자 초과X, unique 제약조건
+        @Column (nullable = false, length = 10, unique=true)
+
+    - 유니크 제약조건 추가
+        @Table(uniqueConstraints = {
+            @UniqueConstraint( name="NAME_AGE_UNIQUE", columnNames = {"NAME", "AGE"} )
+        })
+
+
+--------------------------------------
+기본키 매핑
+--------------------------------------
+    - 사용 가능한 어노테이션
+        . 직접 할당 : @Id
+        . 자동 생성 : @GeneratedValue
+            IDENTITY : 데이터베이스에 위임, MYSQL
+            SEQUENCE : 데이터베이스 시퀀스 오브젝트 사용, ORACLE
+                       @SeqenceGenerator 필요
+            TABLE    : 키 생성용 테이블 사용, 모든 DB에서 사용
+                       @TableGenerator 필요
+            AUTO     : 방언에 따라 자동 지정, 기본값
+
+       . @SequenceGenerator
+            name            : 식별자 생성기 이름(필수)
+            sequenceName    : DB 시퀀스 이름 (기본값 : hibernate_sequence )
+            initialValue    : DDL 생성시만 사용됨 (초기 값 : 1 (기본) )
+            allocationSize  : 시퀀스 한 번 호출에 증가하는 수 : 기본 50
+                              - 데이터베이스 시퀀스 값이 하나씩 증가하도록 설정되어 있으면,
+                                이 값을 반드시 1로 설정해야 한다. ****
+
+    - 예시)
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO )
+        private Long id;
+
+
+        @Entity
+        @SequenceGenerator( name            = "MEMBER_SEQ_GENERATOR",
+                            sequenceName    = "MEMBER_SEQ",  // DB 시퀀스명
+                            initialValue    = 1,
+                            allocationSize  = 1)
+        public class Member {
+            @Id
+            @GeneratedValue(strategy = GenerationType.SEQUENCE,
+                            generator="MEMBER_SEQ_GENERATOR")
+            private Long id;
+        }
+
+
+--------------------------------------
+테이블 전략 매핑
+--------------------------------------
+    @TableGenerator - 속성
+        . name          : 식별자 생성기 이름
+        . table         : 키생성 테이블명 ( 기본값 : hibernate_sequence )
+        . pkColumnName  : 시퀀스 컴럼명 ( 기본값 : sequence_name )
+        . valueColumnNa : 시퀀스 값 컬럼명 ( 기본값 : next_val )
+        . initialValue  : 초기값, 마지막 생성된 값이 기준이다. ( 기본값 : 0 )
+        . allocationSize: 시퀀스 한 번 호출에 증가하는 수 ( 기본값 : 50 )
+        . catalog, schema : 데이터베이스 catalog, schema 이름
+        .uniqueContraints : 유니크 제약 조건 지정
+
+    - 예시)
+    MY_SEQUENCES (SEQUENCE_NAME, NEXT_VAL) 테이블 생성됨
+        pkColumnValue 값을 SEQUENCE_NAME 필드의 값으로 ROW를 추가함.
+
+    @Entity
+    @TableGenerator (   name            = "MEMBER_SEQ_GENERATOR"
+                        table           = "MY_SEQUENCES"
+                        pkColumnValue   = "MEMBER_SEQ"
+                        allocationSize  = 1)
+        public class Member {
+            @Id
+            @GeneratedValue(strategy = GenerationType.TABLE,
+                            generator="MEMBER_SEQ_GENERATOR")
+            private Long id;
+        }
+
+--------------------------------------
+권장하는 식별자 전략
+--------------------------------------
+    . 기본키 제약 조건  : null 아님, 유일, 변하면 안된다.
+    . 권장            : Long 형 + 대체키 + 키 생성전략 사용
+
+--------------------------------------
+IDENTITY 전략 - 특징
+--------------------------------------
+    . 주로 MySQL, SQL Server, DB2, PostgreSQL 에서 사용
+      ( AUTO_INCREMENT )
+    . JPA는 1차 캐시에 @Id 값으로 키값을 사용하고 있으나,
+      IDENTITY 컬럼은 DB에 INSERT 해야 해당 키값을 알아낼 수 있기 때문에
+      em.persist(entity) 함수를 호출하는 순간에 바로 SQL 쿼리문을 실행한다.
+      ==> IDENTITY는 쓰기 지연 SQL 기능을 사용되지 않는다.
+
+
+--------------------------------------
+SEQENCE 전략 - 특징
+--------------------------------------
+    . JPA는 데이터 INSERT 전에 SEQUENCE를 먼저 조회한다.
+    . allocationSize=1 이면, 매번 INSERT 할 때마다 시퀀스 조회하지만,
+      allocationSize=50 이면, 첫 INSERT 때 미리 50개를 땡겨와서 메모리에서 관리한다.
+      (여러번 INSERT를 하는 경우 성능에 유리하다 )
+        예) DB SEQ = 0, <== 초기사항
+            call next value : SEQ = 1   <== dummy 호출
+            call next value : SEQ = 50  <== allocateSize 만큼 할당
+
+
+
