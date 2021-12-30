@@ -2,11 +2,12 @@ package com.inho.jpabasic.entities;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter @Setter
 public class Member
 {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,5 +29,16 @@ public class Member
         this.city = city;
         this.street = street;
         this.zipcode = zipcode;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                '}';
     }
 }

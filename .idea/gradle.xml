@@ -10,7 +10,7 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
+            <option value="/home/leeinho/dev/git/jpa-basic/jpa-basic" />
           </set>
         </option>
       </GradleProjectSettings>

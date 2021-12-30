@@ -1,15 +1,13 @@
 package com.inho.jpabasic.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Data
+@Getter @Setter
 @Entity
 public class Item {
     @Id
@@ -29,5 +27,15 @@ public class Item {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", stockQuantity=" + stockQuantity +
+                '}';
     }
 }

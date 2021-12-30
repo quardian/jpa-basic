@@ -1,13 +1,16 @@
 package com.inho.jpabasic.entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Orders {
     @Id
@@ -26,7 +29,7 @@ public class Orders {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToMany(fetch =FetchType.LAZY, mappedBy = "item")
+    @OneToMany(fetch =FetchType.LAZY, mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public Orders(){}
@@ -35,5 +38,14 @@ public class Orders {
         this.member = member;
         this.orderDateTime = orderDateTime;
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Orders{" +
+                "id=" + id +
+                ", orderDateTime=" + orderDateTime +
+                ", status=" + status +
+                '}';
     }
 }
