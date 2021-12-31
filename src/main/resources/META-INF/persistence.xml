@@ -13,12 +13,23 @@
         <!--
         <class>com.inho.jpabasic.entities.MemberModel</class>
         -->
-        <class>com.inho.jpabasic.entities.MemberModel</class>
+        <!--
+
 
         <class>com.inho.jpabasic.entities.Member</class>
+        <class>com.inho.jpabasic.entities.Locker</class>
+        <class>com.inho.jpabasic.entities.Product</class>
+        <class>com.inho.jpabasic.entities.Category</class>
         <class>com.inho.jpabasic.entities.Item</class>
         <class>com.inho.jpabasic.entities.Orders</class>
         <class>com.inho.jpabasic.entities.OrderItem</class>
+        <class>com.inho.jpabasic.entities.Delivery</class>
+        -->
+        <class>com.inho.jpabasic.entities.MemberModel</class>
+        <class>com.inho.jpabasic.entities.products.Item</class>
+        <class>com.inho.jpabasic.entities.products.Album</class>
+        <class>com.inho.jpabasic.entities.products.Book</class>
+        <class>com.inho.jpabasic.entities.products.Movie</class>
 
         <properties>
             <!-- 필수 속성 -->

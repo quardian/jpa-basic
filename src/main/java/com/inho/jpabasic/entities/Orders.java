@@ -32,6 +32,10 @@ public class Orders {
     @OneToMany(fetch =FetchType.LAZY, mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name="delivery_id")
+    private Delivery delivery;
+
     public Orders(){}
 
     public Orders(Member member, LocalDateTime orderDateTime, OrderStatus status) {
