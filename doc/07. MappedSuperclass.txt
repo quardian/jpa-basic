@@ -1,0 +1,35 @@
+--------------------------------------
+@MappedSuperclass
+--------------------------------------
+    - 공통 매핑 정보가 필요할 때 사용 ( id, name )
+      ( 테이블은 다르지만, 속성만 상속해서 쓰고 싶을 때 사용 )
+    - @Inheritance 과의 차이는 상속관계 매핑 X
+    - 엔터티 X, 테이블 매핑 X
+    - 부모클래스를 상속 받은 자식 클래스에 매핑 정보만 제공
+    - 조회, 검색불가( em.find(BaseEntity) 불가 ) <-- Entity가 아니니 당연!
+    - 직접 생성해서 사용할 일이 없으므로 추장 클래스 권장
+
+    [참고]
+        @Entity 클래스 선인시, @Entity 또는 @MappedSuperclass로 지정한 클래스만 상속 가능
+            @Entity 상속              : 상속관계 매핑
+            @MappedSuperclass 상속    : 속성 상속
+
+    --------------------------
+      Memeber     Seller
+        id          id
+        name        name
+    --------------------------
+        - BaseEntity
+        .id
+        .name
+        - Member
+            .email
+        - Seller
+            .shopName
+    --------------------------
+    private String          createdBy;
+    private LocalDateTime   createdAt;
+    private String          lastModifiedBy;
+    private LocalDateTime   lastModifiedAt;
+    private LocalDate       createdDate;
+    private LocalTime       createdTime;
